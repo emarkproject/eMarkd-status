@@ -1,8 +1,10 @@
-# bitcoind-status
+# eMarkd-status
 
-[![Travis CI Status](https://travis-ci.org/craigwatson/bitcoind-status.svg?branch=master)](https://travis-ci.org/craigwatson/bitcoind-status)
 
 This is a small PHP application designed to display status and information from the Bitcoin node daemon.
+
+This fork is designed to display eMarkd node information.
+Example: [http://status.deutsche-emark.de/](http://status.deutsche-emark.de/ "eMarkd Status")
 
 #### Table of Contents
 
