@@ -30,7 +30,7 @@ function curlRequest($url, $curl_handle, $fail_on_error = false)
 
     curl_setopt($curl_handle, CURLOPT_SSL_VERIFYPEER, false);
     curl_setopt($curl_handle, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($curl_handle, CURLOPT_USERAGENT, 'Bitcoin Node Status Page');
+    curl_setopt($curl_handle, CURLOPT_USERAGENT, 'eMark Node Status Page');
     curl_setopt($curl_handle, CURLOPT_URL, $url);
 
     return curl_exec($curl_handle);
@@ -121,15 +121,16 @@ function getData($from_cache = false)
         $bitnodes_curl = curl_init();
     }
 
-    // Get max height from bitnodes.21.co
+    // Get max height
     if ($config['display_max_height'] === true) {
         $bitnodes_curl = curl_init();
         if ($config['display_testnet'] === true) {
             $exec_result = json_decode(curlRequest("https://testnet.blockexplorer.com/api/status?q=getBlockCount", $bitnodes_curl), true);
             $data['max_height'] = $exec_result['blockcount'];
         } else {
-            $exec_result = json_decode(curlRequest("https://bitnodes.21.co/api/v1/snapshots/", $bitnodes_curl), true);
-            $data['max_height'] = $exec_result['results'][0]['latest_height'];
+            $exec_result = json_decode(curlRequest("http://blockexplorer.deutsche-emark.org/api/getblockcount", $bitnodes_curl), true);
+			$exec_result = curl_exec($bitnodes_ch);
+            $data['max_height'] = (int)$exec_result;
         }
         $data['node_height_percent'] = round(($data['blocks']/$data['max_height'])*100, 1);
     }
@@ -249,7 +250,7 @@ function writeToCache($data)
 function generateDonationImage()
 {
     global $config;
-    $alt_text = 'Donate ' . $config['donation_amount'] . ' BTC to ' . $config['donation_address'];
+    $alt_text = 'Donate ' . $config['donation_amount'] . ' DEM to ' . $config['donation_address'];
     return "\n" . '<img src="https://chart.googleapis.com/chart?chld=H|2&chs=225x225&cht=qr&chl=' . $config['donation_address'] . '" alt="' . $alt_text . '" />' . "\n";
 }
 
